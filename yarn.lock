@@ -769,6 +769,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prisma/client@npm:3.15.1":
+  version: 3.15.1
+  resolution: "@prisma/client@npm:3.15.1"
+  dependencies:
+    "@prisma/engines-version": 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
+  peerDependencies:
+    prisma: "*"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+  checksum: ade441292ff19b9559521680b6d72998dae24914a85a4136c43c85f763e47ef7c4a0c2c68d20e4698a2f7dda31d244c28cbcaccaf52a26a312631cf88233aa02
+  languageName: node
+  linkType: hard
+
+"@prisma/engines-version@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e":
+  version: 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
+  resolution: "@prisma/engines-version@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e"
+  checksum: f2ea2b3efe2ed90c1448b79e8718eefa7ee12f68dcee3fb9c322aee1cb8847602628436e7760b5ddc1e84da5fb799d464d9b4809a3989393842b75d933273abc
+  languageName: node
+  linkType: hard
+
 "@prisma/engines@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e":
   version: 3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e
   resolution: "@prisma/engines@npm:3.15.1-1.461d6a05159055555eb7dfb337c9fb271cbd4d7e"
@@ -5820,6 +5841,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@prisma/client": 3.15.1
     "@types/node": 17.0.42
     "@unocss/nuxt": 0.30.2
     nuxt: 3.0.0-rc.3
