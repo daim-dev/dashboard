@@ -26,9 +26,8 @@ export default defineNuxtConfig({
     },
     theme: {
       colors: {
-        primary: '#215ca9',
-        secondary: '#98ccf0',
-        nav: '#498cc3',
+        primary: '#1a1a1a',
+        nav: '#343a40',
       },
     },
     shortcuts: [

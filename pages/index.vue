@@ -1,13 +1,13 @@
 <template>
-<Title v-if="title" itemprop="name">{{ title }}</Title>
+  <div>
+    <Title v-if="title" itemprop="name">{{ title }}</Title>
     <Meta
       v-if="description"
       name="description"
       :content="description"
       itemprop="description"
     />
-  <div>
-    <h1>{{title}}</h1>
+    <h1 class="text-3xl">{{title}}</h1>
   </div>
 </template>
 
