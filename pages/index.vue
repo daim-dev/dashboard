@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <Title v-if="title" itemprop="name">{{ title }}</Title>
     <Meta
       v-if="description"
