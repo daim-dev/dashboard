@@ -391,6 +391,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify/json@npm:2.1.64":
+  version: 2.1.64
+  resolution: "@iconify/json@npm:2.1.64"
+  dependencies:
+    "@iconify/types": ^1.1.0
+    pathe: ^0.2.0
+  checksum: f32cfec2f6972364f900a53a9b68832aa3ff8ed31fc01889045d2d2553776a4d92091293149d2a59b9f8ebb287c1fcf24db09eb69899be5beebdf8853e805ca1
+  languageName: node
+  linkType: hard
+
 "@iconify/types@npm:^1.1.0":
   version: 1.1.0
   resolution: "@iconify/types@npm:1.1.0"
@@ -6003,6 +6013,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
+    "@iconify/json": 2.1.64
     "@nuxtjs/supabase": 0.1.16
     "@prisma/client": 3.15.1
     "@types/node": 17.0.42
