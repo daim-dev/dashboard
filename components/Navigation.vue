@@ -45,12 +45,21 @@
           class="flex h-full shadow-md bg-white px-1 flex-col transition-all duration-500"
           :class="{ 'opacity-0': !draw, 'w-0': !draw, 'w-60': draw }"
         >
-          <Link
-            v-bind="item"
+          <div
             v-for="item of items"
             :key="item.name"
-            class="relative text-xl hover:text-grey-500 btn text-black-500"
-          />
+            class="relative flex px-4"
+            :class="{ 'bg-gray-200': $route.path === item.url }"
+          >
+            <span
+              :class="item.icon"
+              class="text-black w-24px h-24px my-auto"
+            ></span>
+            <Link
+              v-bind="item"
+              class="relative text-xl hover:text-grey-500 btn text-black-500"
+            ></Link>
+          </div>
         </div>
       </teleport>
     </div>
@@ -63,9 +72,16 @@ const { data: items } = await useAsyncData(`content-navigation`, () => {
   // return queryContent("/navigation").sort({ pos: 1 }).find();
   return [
     {
+      icon: "i-mdi-home",
+      name: "Home",
+      url: "/",
+      pos: "1/1",
+    },
+    {
+      icon: "i-mdi-login",
       name: "Login",
       url: "/login",
-      pos: "1/1",
+      pos: "2/1",
     },
   ];
 });
