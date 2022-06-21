@@ -1,15 +1,23 @@
 <template>
   <Html lang="en-AU" itemscope itemtype="https://schema.org/WebPage">
-    <div class="min-h-screen flex flex-col justify-between body">
+    <div class="min-h-screen flex flex-col justify-start body">
       <Navigation />
-      <main
-        class="mb-auto"
-        itemprop="mainContentOfPage"
-        itemtype="https://schema.org/WebPageElement"
-      >
-        <NuxtPage />
-      </main>
-      <div id="sidenav"></div>
+      <div class="flex justify-start self-stretch h-full grow">
+        <div
+          id="sidenav"
+          class="self-stretch flex grow flex-col min-h-full"
+        ></div>
+        <div class="w-full flex-col min-h-full grow self-stretch flex-wrap overflow-y-auto">
+          <main
+            itemprop="mainContentOfPage"
+            itemtype="https://schema.org/WebPageElement"
+            class="flex grow self-stretch h-full"
+          >
+            <NuxtPage />
+          </main>
+          <footer class="flex">FOOTER</footer>
+        </div>
+      </div>
     </div>
   </Html>
 </template>
