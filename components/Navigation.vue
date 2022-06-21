@@ -31,7 +31,7 @@
         </nuxt-link>
       </div>
 
-      <div class="flex justify-between">
+      <div class="md:flex justify-between hidden">
         <Link
           v-bind="item"
           v-for="item of items"
