@@ -42,7 +42,7 @@
 
       <teleport to="#sidenav">
         <div
-          class="flex h-full shadow-md bg-white px-1 flex-col transition-all duration-500"
+          class="flex h-full shadow-md bg-white flex-col transition-all duration-500"
           :class="{ 'opacity-0': !draw, 'w-0': !draw, 'w-60': draw }"
         >
           <div
