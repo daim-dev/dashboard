@@ -8,7 +8,7 @@
       target="_blank"
       rel="noopener"
     >
-      {{ name }}
+      <slot>{{ name }}</slot>
     </a>
     <NuxtLink
       v-else
@@ -17,7 +17,7 @@
       itemscope
       itemtype="https://schema.org/SiteNavigationElement"
     >
-      {{ name }}
+      <slot>{{ name }}</slot>
     </NuxtLink>
 </template>
 
