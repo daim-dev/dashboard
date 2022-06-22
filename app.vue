@@ -7,7 +7,9 @@
           id="sidenav"
           class="self-stretch flex grow flex-col min-h-full"
         ></div>
-        <div class="w-full flex-col min-h-full grow self-stretch flex-wrap overflow-y-auto">
+        <div
+          class="w-full flex-col min-h-full grow self-stretch flex-wrap overflow-y-auto"
+        >
           <main
             itemprop="mainContentOfPage"
             itemtype="https://schema.org/WebPageElement"
@@ -15,7 +17,12 @@
           >
             <NuxtPage />
           </main>
-          <footer class="flex">FOOTER</footer>
+          <footer class="flex">
+            <p>
+              <span>Site by </span>
+              <a href="https://daim.dev" class="underline" target="_blank">Daim Digital</a>
+            </p>
+          </footer>
         </div>
       </div>
     </div>
