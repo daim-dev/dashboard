@@ -53,11 +53,11 @@
           >
             <span
               :class="item.icon"
-              class="text-black w-24px h-24px my-auto"
+              class="text-gray w-32px h-32px my-auto"
             ></span>
             <Link
               v-bind="item"
-              class="relative text-xl hover:text-grey-500 btn text-black-500"
+              class="relative hover:text-grey-500 btn text-black-500"
             ></Link>
           </div>
         </div>
@@ -72,19 +72,19 @@ const { data: items } = await useAsyncData(`content-navigation`, () => {
   // return queryContent("/navigation").sort({ pos: 1 }).find();
   return [
     {
-      icon: "i-mdi-home",
+      icon: "i-carbon-home",
       name: "Home",
       url: "/",
       pos: "1/1",
     },
     {
-      icon: "i-mdi-folder",
+      icon: "i-carbon-folder",
       name: "Projects",
       url: "/projects",
       pos: "2/1",
     },
     {
-      icon: "i-mdi-login",
+      icon: "i-carbon-login",
       name: "Login",
       url: "/login",
       pos: "3/1",
