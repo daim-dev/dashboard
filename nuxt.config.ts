@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     },
     shortcuts: [
       {
-        btn: 'py-2 px-4 text-xs rounded-lg px-6 py-2.5',
+        btn: 'py-2 px-4 rounded-lg px-6 py-2.5',
         'btn-link':
           'bg-transparent',
       },
