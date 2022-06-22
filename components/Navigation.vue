@@ -78,10 +78,16 @@ const { data: items } = await useAsyncData(`content-navigation`, () => {
       pos: "1/1",
     },
     {
+      icon: "i-mdi-folder",
+      name: "Projects",
+      url: "/projects",
+      pos: "2/1",
+    },
+    {
       icon: "i-mdi-login",
       name: "Login",
       url: "/login",
-      pos: "2/1",
+      pos: "3/1",
     },
   ];
 });
