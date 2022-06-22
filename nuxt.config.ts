@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt'
+import invertColor from './utils/invert-color'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -40,7 +41,7 @@ export default defineNuxtConfig({
       [
         /^btn-(.*)$/,
         ([, c], { theme }) => {
-          const isColor = theme.colors[c]
+          const color = theme.colors[c]
           const sm = 'px-4 py-1.5'
           const md = 'px-6 py-2.5'
           const lg = 'px-8 py-3 text-md'
@@ -49,10 +50,10 @@ export default defineNuxtConfig({
           if (size) {
             return size
           }
-          const bg = isColor
+          const bg = color
             ? `bg-${c}-400 hover:bg-${c}-700 focus:bg-${c}-700 active:bg-${c}-800`
             : ''
-          const text = isColor ? `text-${c}-100` : ''
+          const text = color ? `text-${invertColor(color.DEFAULT ?? color, true)}` : ''
           return `${bg} ${text} inline-block font-medium leading-tight shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out`
         },
       ],
