@@ -13,7 +13,7 @@
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          @click="draw = !draw"
+          @click="$emit('update:draw', !draw)"
         >
           <span class="i-mdi-menu h-24px w-24px my-auto"></span>
         </button>
@@ -39,57 +39,16 @@
           class="text-xl hover:text-gray-200 btn text-white-500"
         />
       </div>
-
-      <teleport to="#sidenav">
-        <div
-          class="flex grow min-h-full shadow-md bg-white flex-col transition-all duration-500"
-          :class="{ 'opacity-0': !draw, 'w-0': !draw, 'w-60': draw }"
-        >
-          <div
-            v-for="item of items"
-            :key="item.name"
-            class="relative flex px-4"
-            :class="{ 'bg-gray-200': $route.path === item.url }"
-          >
-            <span
-              :class="item.icon"
-              class="text-gray w-32px h-32px my-auto"
-            ></span>
-            <Link
-              v-bind="item"
-              class="relative hover:text-grey-500 btn text-black-500"
-            ></Link>
-          </div>
-        </div>
-      </teleport>
     </div>
   </nav>
 </template>
 
-<script setup>
-const { path } = useRoute();
-const { data: items } = await useAsyncData(`content-navigation`, () => {
-  // return queryContent("/navigation").sort({ pos: 1 }).find();
-  return [
-    {
-      icon: "i-carbon-home",
-      name: "Home",
-      url: "/",
-      pos: "1/1",
-    },
-    {
-      icon: "i-carbon-folder",
-      name: "Projects",
-      url: "/projects",
-      pos: "2/1",
-    },
-    {
-      icon: "i-carbon-login",
-      name: "Login",
-      url: "/login",
-      pos: "3/1",
-    },
-  ];
-});
-const draw = ref(false);
+<script>
+export default {
+  props: {
+    draw: { type: Boolean, default: false },
+    items: { type: Array, default: () => [] },
+  },
+  emits: ['update:draw']
+}
 </script>
