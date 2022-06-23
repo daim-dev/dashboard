@@ -1,27 +1,27 @@
 <template>
-  <div class="flex justify-center">
-    <div class="rounded-lg shadow-lg bg-white max-w-sm">
-        <img
-          class="rounded-t-lg"
-          :src="image"
-          alt=""
-          :aspect-ratio="imageWidth / imageHeight"
-          :style="`background-color: ${_imageBackgroundColor}`"
-        />
-      <div class="p-6">
-        <div class="text-gray-900 text-xl font-medium mb-2">{{name}}</div>
-        <p class="text-gray-700 text-base mb-4">
-          {{ description }}
-        </p>
-        <Link
-          class="ml-2 flex justify-end"
-          v-for="link in links"
-          v-bind="link"
-          :key="link"
-        >
-          <span class="i-carbon-new-tab text-gray w-24px h-24px my-auto"></span>
-        </Link>
-      </div>
+  <div class="rounded-lg shadow-lg bg-white max-w-sm flex flex-col grow self-stretch min-w-240px">
+    <img
+      class="rounded-t-lg h-216px"
+      :src="image"
+      alt=""
+      :width="imageWidth"
+      :height="imageHeight"
+      :aspect-ratio="imageWidth / imageHeight"
+      :style="`background-color: ${_imageBackgroundColor}`"
+    />
+    <div class="p-6 flex grow flex-col self-stretch">
+      <div class="text-gray-900 text-xl font-medium mb-2">{{ name }}</div>
+      <p class="text-gray-700 text-base mb-4">
+        {{ description }}
+      </p>
+      <Link
+        class="ml-2 flex justify-end self-end justify-self-end mt-auto"
+        v-for="link in links"
+        v-bind="link"
+        :key="link"
+      >
+        <span class="i-carbon-new-tab text-gray w-24px h-24px my-auto"></span>
+      </Link>
     </div>
   </div>
 </template>
