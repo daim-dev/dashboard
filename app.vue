@@ -2,10 +2,10 @@
   <Html lang="en-AU" itemscope itemtype="https://schema.org/WebPage">
     <div class="min-h-screen flex flex-col justify-start body">
       <Navigation />
-      <div class="flex justify-start self-stretch h-full grow">
+      <div class="flex justify-start self-stretch h-full grow relative">
         <div
           id="sidenav"
-          class="self-stretch flex grow flex-col min-h-full"
+          class="self-stretch flex grow flex-col min-h-full absolute sm:relative"
         ></div>
         <div
           class="w-full flex-col grow self-stretch flex-wrap"
