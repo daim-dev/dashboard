@@ -8,12 +8,12 @@
           class="self-stretch flex grow flex-col min-h-full"
         ></div>
         <div
-          class="w-full flex-col min-h-full grow self-stretch flex-wrap overflow-y-auto"
+          class="w-full flex-col grow self-stretch flex-wrap"
         >
           <main
             itemprop="mainContentOfPage"
             itemtype="https://schema.org/WebPageElement"
-            class="flex grow self-stretch h-full"
+            class="flex grow self-stretch min-h-screen"
           >
             <NuxtPage />
           </main>
