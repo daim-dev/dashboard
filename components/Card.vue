@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-lg shadow-lg bg-white max-w-sm flex flex-col grow self-stretch min-w-240px">
+  <div class="rounded-lg shadow-lg bg-white flex flex-col grow self-stretch min-w-240px max-w-360px">
     <img
       class="rounded-t-lg h-216px"
       :src="image"
