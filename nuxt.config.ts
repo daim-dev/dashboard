@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   buildModules: [
     '@unocss/nuxt',
   ],
+  css: ['@unocss/reset/tailwind.css'],
   unocss: {
     uno: true,
     attributify: true,
