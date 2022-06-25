@@ -21,5 +21,16 @@ CREATE TABLE "Project" (
     CONSTRAINT "Project_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Person" (
+    "id" UUID NOT NULL DEFAULT extensions.uuid_generate_v1(),
+    "givenName" TEXT NOT NULL,
+    "familyName" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Person_pkey" PRIMARY KEY ("id")
+);
+
 -- AddForeignKey
 ALTER TABLE "Project" ADD CONSTRAINT "Project_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
