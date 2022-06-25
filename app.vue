@@ -32,9 +32,10 @@
 </template>
 
 <script setup>
+const user = useSupabaseUser();
 const { data: items } = await useAsyncData(`content-navigation`, () => {
   // return queryContent("/navigation").sort({ pos: 1 }).find();
-  return [
+  const items = [
     {
       icon: "i-carbon-home",
       name: "Home",
@@ -47,13 +48,31 @@ const { data: items } = await useAsyncData(`content-navigation`, () => {
       url: "/projects",
       pos: "2/1",
     },
-    {
+  ];
+  if (user.value) {
+    items.push(
+      {
+        icon: "i-carbon-user",
+        name: "Profile",
+        url: "/profile",
+        pos: "3/1",
+      },
+      {
+        icon: "i-carbon-logout",
+        name: "Logout",
+        url: "/logout",
+        pos: "3/1",
+      },
+    );
+  } else {
+    items.push({
       icon: "i-carbon-login",
       name: "Login",
       url: "/login",
       pos: "3/1",
-    },
-  ];
+    });
+  }
+  return items;
 });
 const draw = ref(false);
 </script>
