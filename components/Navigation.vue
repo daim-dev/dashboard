@@ -36,7 +36,8 @@
           v-bind="item"
           v-for="item of items"
           :key="item.name"
-          class="text-xl hover:text-gray-200 btn text-white-500"
+          class="text-xl hover:text-gray-200 btn text-white-500 border-x-0 border-t-0 border-b-2 border-transparent mx-4 px-2"
+          :class="{ 'border-b-white': $route.path === item.url }"
         />
       </div>
     </div>
@@ -49,6 +50,6 @@ export default {
     draw: { type: Boolean, default: false },
     items: { type: Array, default: () => [] },
   },
-  emits: ['update:draw']
-}
+  emits: ["update:draw"],
+};
 </script>
