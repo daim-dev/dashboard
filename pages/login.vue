@@ -1,30 +1,42 @@
 <template>
-  <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm m-auto">
-    <form @submit.prevent="handleLogin">
-      <div class="form-group mb-6">
-        <label
-          for="emailInput"
-          class="form-label inline-block mb-2 text-gray-700"
-          >Email address</label
-        >
-        <input
-          type="email"
-          class="form-control"
-          id="emailInput"
-          aria-describedby="emailHelp"
-          placeholder="Enter email"
-          v-model="email"
+  <div class="container mx-auto px-6 py-12 h-full w-full">
+    <div
+      class="flex justify-center items-center flex-wrap h-full w-full g-6 text-gray-800"
+    >
+      <!-- <div class="md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
+        <img
+          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+          class="w-full"
+          alt="Phone image"
         />
+      </div> -->
+      <div class="md:w-8/12 lg:w-5/12 lg:ml-20 w-auto">
+        <form @submit.prevent="handleLogin" class="w-auto">
+          <div class="form-group">
+            <label
+              for="emailInput"
+              class="form-label inline-block mb-2 text-gray-700 text-lg"
+              >Email address</label
+            >
+            <input
+              type="email"
+              class="form-control text-lg"
+              id="emailInput"
+              placeholder="Enter email"
+              v-model="email"
+            />
+          </div>
+          <button
+            type="submit"
+            :disabled="loading"
+            class="w-full btn btn-primary"
+          >
+            <template v-if="loading">Loading</template>
+            <template v-else>Send magic link</template>
+          </button>
+        </form>
       </div>
-      <button
-        type="submit"
-        :disabled="loading"
-        class="w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-      >
-        <template v-if="loading">Loading</template>
-        <template v-else>Send magic link</template>
-      </button>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -45,7 +57,7 @@ export default {
         loading.value = true;
         const { error } = await supabase.auth.signIn({ email: email.value });
         if (error) throw error;
-        router.push('/')
+        router.push("/");
       } catch (error) {
         alert(error.error_description || error.message);
       } finally {
