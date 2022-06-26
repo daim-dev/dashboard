@@ -1,5 +1,5 @@
--- Create extensions schema if not exists
+-- migrate:up
 CREATE SCHEMA IF NOT EXISTS extensions;
-
--- enable the "uuid-ossp" extension 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
+
+-- migrate:down
