@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=daim-dashboard
+
+persons 2022-06-26T02:14:53Z Damien Robinson <damien.robinson@daim.dev> # Table to store user details
