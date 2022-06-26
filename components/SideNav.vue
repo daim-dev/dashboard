@@ -6,7 +6,7 @@
     <div
       v-for="item of items"
       :key="item.name"
-      class="relative flex px-4"
+      class="relative flex px-4 hover:bg-gray-500/10"
       :class="{ 'bg-gray-200': $route.path === item.url }"
     >
       <span :class="item.icon" class="text-gray w-32px h-32px my-auto"></span>
