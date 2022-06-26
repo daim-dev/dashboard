@@ -36,7 +36,7 @@
           v-bind="item"
           v-for="item of items"
           :key="item.name"
-          class="text-xl hover:text-gray-200 btn text-white-500 border-x-0 border-t-0 border-b-2 border-transparent mx-4 px-2"
+          class="text-xl hover:text-gray-200 btn text-white-500 border-x-0 border-t-0 border-b-2 border-transparent mx-4 px-2 hover:bg-gray-500/10"
           :class="{ 'border-b-white': $route.path === item.url }"
         />
       </div>
