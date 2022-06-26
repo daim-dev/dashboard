@@ -1,92 +1,126 @@
 <template>
-  <form class="block p-6 rounded-lg shadow-lg bg-white max-w-sm m-auto" @submit.prevent="updateProfile">
-  {{user.id}}
-    <div>
-      <label for="email">Email</label>
-      <input id="email" type="text" :value="user.email" disabled class="form-control" />
+  <form
+    class="block p-6 rounded-lg shadow-lg bg-white max-w-sm m-auto"
+    @submit.prevent="updateProfile"
+  >
+    <div class="mb-2">
+      <div  class="mb-2">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="text"
+          :value="user?.email"
+          disabled
+          class="form-control"
+        />
+      </div>
+      <div v-if="profile"  class="mb-2">
+        <label for="givenName">First Name</label>
+        <input
+          id="givenName"
+          type="text"
+          v-model="profile.givenName"
+          class="form-control"
+        />
+      </div>
+      <div v-if="profile"  class="mb-2">
+        <label for="familyName">Last Name</label>
+        <input
+          id="familyName"
+          type="text"
+          v-model="profile.familyName"
+          class="form-control"
+        />
+      </div>
     </div>
-    <!-- <div>
-      <label for="username">Name</label>
-      <input id="username" type="text" v-model="username" class="form-control" />
-    </div>
-    <div>
-      <label for="website">Website</label>
-      <input id="website" type="website" v-model="website" class="form-control" />
-    </div> -->
 
     <div>
       <button
         type="submit"
         class="btn btn-primary block w-full"
         :disabled="loading"
-      >{{loading ? 'Loading ...' : 'Update'}}</button>
+      >
+        {{ loading ? "Loading ..." : "Update" }}
+      </button>
     </div>
   </form>
 </template>
 
-<script>
-import { onMounted, ref } from "vue"
+<script lang="ts">
+import { ref, defineComponent } from "vue";
 
-export default {
-  setup() {
+export default defineComponent({
+  async setup() {
     const supabase = useSupabaseClient();
-    const loading = ref(true)
+    const loading = ref(true);
     const user = useSupabaseUser();
-    const person = ref({})
 
     async function getProfile() {
+      const defaultProfile = {
+        givenName: "",
+        familyName: "",
+      };
       try {
-        loading.value = true
+        loading.value = true;
 
-        const { data, error, status } = await supabase
-          .from("persons")
-          .select(`givenName, familyName`)
-          .eq("id", user.id)
-          .single()
+        if (user.value && user.value.id) {
+          const { data, error, status } = await supabase
+            .from("persons")
+            .select("givenName, familyName")
+            .eq("id", user.value.id)
+            .single();
 
-        if (error && status !== 406) throw error
+          if (error && status !== 406) throw error;
 
-        if (data) {
-          person.value = data
+          if (data) {
+            return data;
+          }
         }
+        return defaultProfile;
       } catch (error) {
-        alert(error.message)
+        console.error(error.message);
+        return defaultProfile;
       } finally {
-        loading.value = false
+        loading.value = false;
       }
     }
 
     async function updateProfile() {
       try {
-        loading.value = true
-        user = useSupabaseUser()
+        loading.value = true;
 
         const updates = {
-          id: user.id,
+          id: user.value.id,
+          givenName: profile.value.givenName,
+          familyName: profile.value.familyName,
           updatedAt: new Date(),
-        }
+        };
 
         let { error } = await supabase.from("persons").upsert(updates, {
           returning: "minimal", // Don't return the value after inserting
-        })
+        });
 
-        if (error) throw error
+        if (error) throw error;
       } catch (error) {
-        alert(error.message)
+        alert(error.message);
       } finally {
-        loading.value = false
+        loading.value = false;
       }
     }
 
-    onMounted(() => {
-      getProfile()
-    })
+    const { data: profile } = await useAsyncData(
+      "user-profile",
+      async () => await getProfile(),
+    );
+
+    loading.value = false;
 
     return {
+      profile,
       user,
       loading,
       updateProfile,
-    }
+    };
   },
-}
+});
 </script>
