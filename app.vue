@@ -64,13 +64,6 @@ const { data: items } = await useAsyncData(`content-navigation`, () => {
         pos: "3/1",
       },
     );
-  } else {
-    items.push({
-      icon: "i-carbon-login",
-      name: "Login",
-      url: "/login",
-      pos: "3/1",
-    });
   }
   return items;
 });
