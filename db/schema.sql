@@ -24,17 +24,24 @@ CREATE SCHEMA extensions;
 
 
 --
+-- Name: pg_graphql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_graphql WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_graphql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_graphql IS 'GraphQL support';
+
+
+--
 -- Name: graphql_public; Type: SCHEMA; Schema: -; Owner: -
 --
 
 CREATE SCHEMA graphql_public;
-
-
---
--- Name: pgbouncer; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA pgbouncer;
 
 
 --
@@ -49,20 +56,6 @@ CREATE SCHEMA realtime;
 --
 
 CREATE SCHEMA storage;
-
-
---
--- Name: pg_stat_monitor; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_monitor WITH SCHEMA extensions;
-
-
---
--- Name: EXTENSION pg_stat_monitor; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_monitor IS 'The pg_stat_monitor is a PostgreSQL Query Performance Monitoring tool, based on PostgreSQL contrib module pg_stat_statements. pg_stat_monitor provides aggregated statistics, client information, plan details including plan, and histogram information.';
 
 
 --
@@ -186,28 +179,6 @@ $$;
 
 
 --
--- Name: FUNCTION email(); Type: COMMENT; Schema: auth; Owner: -
---
-
-COMMENT ON FUNCTION auth.email() IS 'Deprecated. Use auth.jwt() -> ''email'' instead.';
-
-
---
--- Name: jwt(); Type: FUNCTION; Schema: auth; Owner: -
---
-
-CREATE FUNCTION auth.jwt() RETURNS jsonb
-    LANGUAGE sql STABLE
-    AS $$
-  select
-    coalesce(
-        nullif(current_setting('request.jwt.claim', true), ''),
-        nullif(current_setting('request.jwt.claims', true), '')
-    )::jsonb
-$$;
-
-
---
 -- Name: role(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -223,13 +194,6 @@ $$;
 
 
 --
--- Name: FUNCTION role(); Type: COMMENT; Schema: auth; Owner: -
---
-
-COMMENT ON FUNCTION auth.role() IS 'Deprecated. Use auth.jwt() -> ''role'' instead.';
-
-
---
 -- Name: uid(); Type: FUNCTION; Schema: auth; Owner: -
 --
 
@@ -242,13 +206,6 @@ CREATE FUNCTION auth.uid() RETURNS uuid
 		(nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub')
 	)::uuid
 $$;
-
-
---
--- Name: FUNCTION uid(); Type: COMMENT; Schema: auth; Owner: -
---
-
-COMMENT ON FUNCTION auth.uid() IS 'Deprecated. Use auth.jwt() -> ''sub'' instead.';
 
 
 --
@@ -538,23 +495,6 @@ $_$;
 --
 
 COMMENT ON FUNCTION extensions.set_graphql_placeholder() IS 'Reintroduces placeholder function for graphql_public.graphql';
-
-
---
--- Name: get_auth(text); Type: FUNCTION; Schema: pgbouncer; Owner: -
---
-
-CREATE FUNCTION pgbouncer.get_auth(p_usename text) RETURNS TABLE(username text, password text)
-    LANGUAGE plpgsql SECURITY DEFINER
-    AS $$
-BEGIN
-    RAISE WARNING 'PgBouncer auth request: %', p_usename;
-
-    RETURN QUERY
-    SELECT usename::TEXT, passwd::TEXT FROM pg_catalog.pg_shadow
-    WHERE usename = p_usename;
-END;
-$$;
 
 
 --
@@ -1085,72 +1025,28 @@ $$;
 
 
 --
--- Name: search(text, text, integer, integer, integer, text, text, text); Type: FUNCTION; Schema: storage; Owner: -
+-- Name: search(text, text, integer, integer, integer); Type: FUNCTION; Schema: storage; Owner: -
 --
 
-CREATE FUNCTION storage.search(prefix text, bucketname text, limits integer DEFAULT 100, levels integer DEFAULT 1, offsets integer DEFAULT 0, search text DEFAULT ''::text, sortcolumn text DEFAULT 'name'::text, sortorder text DEFAULT 'asc'::text) RETURNS TABLE(name text, id uuid, updated_at timestamp with time zone, created_at timestamp with time zone, last_accessed_at timestamp with time zone, metadata jsonb)
-    LANGUAGE plpgsql STABLE
-    AS $_$
-declare
-  v_order_by text;
-  v_sort_order text;
-begin
-  case
-    when sortcolumn = 'name' then
-      v_order_by = 'name';
-    when sortcolumn = 'updated_at' then
-      v_order_by = 'updated_at';
-    when sortcolumn = 'created_at' then
-      v_order_by = 'created_at';
-    when sortcolumn = 'last_accessed_at' then
-      v_order_by = 'last_accessed_at';
-    else
-      v_order_by = 'name';
-  end case;
-
-  case
-    when sortorder = 'asc' then
-      v_sort_order = 'asc';
-    when sortorder = 'desc' then
-      v_sort_order = 'desc';
-    else
-      v_sort_order = 'asc';
-  end case;
-
-  v_order_by = v_order_by || ' ' || v_sort_order;
-
-  return query execute
-    'with folders as (
-       select path_tokens[$1] as folder
-       from storage.objects
-         where objects.name ilike $2 || $3 || ''%''
-           and bucket_id = $4
-           and array_length(regexp_split_to_array(objects.name, ''/''), 1) <> $1
-       group by folder
-       order by folder ' || v_sort_order || '
-     )
-     (select folder as "name",
-            null as id,
-            null as updated_at,
-            null as created_at,
-            null as last_accessed_at,
-            null as metadata from folders)
-     union all
-     (select path_tokens[$1] as "name",
-            id,
-            updated_at,
-            created_at,
-            last_accessed_at,
-            metadata
-     from storage.objects
-     where objects.name ilike $2 || $3 || ''%''
-       and bucket_id = $4
-       and array_length(regexp_split_to_array(objects.name, ''/''), 1) = $1
-     order by ' || v_order_by || ')
-     limit $5
-     offset $6' using levels, prefix, search, bucketname, limits, offsets;
-end;
-$_$;
+CREATE FUNCTION storage.search(prefix text, bucketname text, limits integer DEFAULT 100, levels integer DEFAULT 1, offsets integer DEFAULT 0) RETURNS TABLE(name text, id uuid, updated_at timestamp with time zone, created_at timestamp with time zone, last_accessed_at timestamp with time zone, metadata jsonb)
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	return query
+		with files_folders as (
+			select path_tokens[levels] as folder
+			from storage.objects
+			where objects.name ilike prefix || '%'
+			and bucket_id = bucketname
+			GROUP by folder
+			limit limits
+			offset offsets
+		)
+		select files_folders.folder as name, objects.id, objects.updated_at, objects.created_at, objects.last_accessed_at, objects.metadata from files_folders
+		left join storage.objects
+		on prefix || files_folders.folder = objects.name and objects.bucket_id=bucketname;
+END
+$$;
 
 
 SET default_tablespace = '';
@@ -1622,45 +1518,10 @@ CREATE INDEX audit_logs_instance_id_idx ON auth.audit_log_entries USING btree (i
 
 
 --
--- Name: confirmation_token_idx; Type: INDEX; Schema: auth; Owner: -
---
-
-CREATE UNIQUE INDEX confirmation_token_idx ON auth.users USING btree (confirmation_token) WHERE ((confirmation_token)::text !~ '^[0-9 ]*$'::text);
-
-
---
--- Name: email_change_token_current_idx; Type: INDEX; Schema: auth; Owner: -
---
-
-CREATE UNIQUE INDEX email_change_token_current_idx ON auth.users USING btree (email_change_token_current) WHERE ((email_change_token_current)::text !~ '^[0-9 ]*$'::text);
-
-
---
--- Name: email_change_token_new_idx; Type: INDEX; Schema: auth; Owner: -
---
-
-CREATE UNIQUE INDEX email_change_token_new_idx ON auth.users USING btree (email_change_token_new) WHERE ((email_change_token_new)::text !~ '^[0-9 ]*$'::text);
-
-
---
 -- Name: identities_user_id_idx; Type: INDEX; Schema: auth; Owner: -
 --
 
 CREATE INDEX identities_user_id_idx ON auth.identities USING btree (user_id);
-
-
---
--- Name: reauthentication_token_idx; Type: INDEX; Schema: auth; Owner: -
---
-
-CREATE UNIQUE INDEX reauthentication_token_idx ON auth.users USING btree (reauthentication_token) WHERE ((reauthentication_token)::text !~ '^[0-9 ]*$'::text);
-
-
---
--- Name: recovery_token_idx; Type: INDEX; Schema: auth; Owner: -
---
-
-CREATE UNIQUE INDEX recovery_token_idx ON auth.users USING btree (recovery_token) WHERE ((recovery_token)::text !~ '^[0-9 ]*$'::text);
 
 
 --
