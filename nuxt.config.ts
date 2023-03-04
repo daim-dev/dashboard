@@ -1,13 +1,10 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt/config'
 import invertColor from './utils/invert-color'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/supabase'],
-  buildModules: [
-    '@unocss/nuxt',
-    '@nuxt/image-edge',
-  ],
+  modules: ['@nuxtjs/supabase', '@unocss/nuxt',
+  '@nuxt/image-edge',],
   css: ['@unocss/reset/tailwind.css'],
   unocss: {
     uno: true,
