@@ -11,29 +11,29 @@
     </button>
 
     <template v-else>
-      <Link
-        v-bind="item"
+      <NuxtLink
+        :to="item.url"
         v-for="item of items"
         :key="item.name"
         class="hover:text-gray-200 btn text-white-500 border-x-0 border-t-0 border-b-2 border-transparent mx-4 px-2 hover:bg-gray-500/10"
         :class="{ 'border-b-white': $route.path === item.url }"
-      />
+      >{{ item.name }}</NuxtLink>
     </template>
 
     <div
       :class="dropdownClasses"
       class="position-absolute transition-all duration-500 w-60 shadow-lg bg-white right-0 z-1"
     >
-      <Link
+      <NuxtLink
         v-for="item of items"
-        v-bind="item"
+        :to="item.url"
         :key="item.name"
         @click="toggle"
         class="flex px-4 hover:bg-gray-500/10 btn"
       >
         <span :class="item.icon" class="text-gray w-32px h-32px my-auto mr-3"></span>
         <span class="text-black-500 hover:text-grey-500">{{item.name}}</span>
-      </Link>
+      </NuxtLink>
     </div>
   </div>
 </template>

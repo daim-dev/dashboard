@@ -10,10 +10,14 @@
       :class="{ 'bg-gray-200': $route.path === item.url }"
     >
       <span :class="item.icon" class="text-gray w-32px h-32px my-auto"></span>
-      <Link
-        v-bind="item"
-        class="relative hover:text-grey-500 btn text-black-500"
-      ></Link>
+      <NuxtLink
+      :to="item.url"
+      itemscope
+      itemtype="https://schema.org/SiteNavigationElement"
+      class="relative hover:text-grey-500 btn text-black-500"
+    >
+      <slot>{{ item.name }}</slot>
+    </NuxtLink>
     </div>
   </div>
 </template>

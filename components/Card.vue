@@ -14,14 +14,14 @@
       <p class="text-gray-700 text-base mb-4">
         {{ description }}
       </p>
-      <Link
+      <NuxtLink
         class="ml-2 flex justify-end self-end justify-self-end mt-auto"
         v-for="link in links"
-        v-bind="link"
+        :to="link.url"
         :key="link"
       >
         <span class="i-carbon-new-tab text-gray w-24px h-24px my-auto"></span>
-      </Link>
+      </NuxtLink>
     </div>
   </div>
 </template>
