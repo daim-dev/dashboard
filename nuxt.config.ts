@@ -26,7 +26,19 @@ export default defineNuxtConfig({
     },
     theme: {
       colors: {
-        primary: '#1a1a1a',
+        "primary": {
+          DEFAULT: "#1A1A1A",
+          50: "#E8E8E8",
+          100: "#D1D1D1",
+          200: "#A3A3A3",
+          300: "#757575",
+          400: "#474747",
+          500: "#1A1A1A",
+          600: "#141414",
+          700: "#0F0F0F",
+          800: "#0A0A0A",
+          900: "#050505"
+        },
         nav: '#343a40',
       },
     },
