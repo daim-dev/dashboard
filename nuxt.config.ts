@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/supabase'],
   buildModules: [
     '@unocss/nuxt',
+    '@nuxt/image-edge',
   ],
   css: ['@unocss/reset/tailwind.css'],
   unocss: {
