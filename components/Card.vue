@@ -1,14 +1,20 @@
 <template>
   <div class="rounded-lg shadow-lg bg-white flex flex-col grow self-stretch min-w-240px max-w-360px">
-    <img
-      class="rounded-t-lg h-216px"
-      :src="image"
-      alt=""
-      :width="imageWidth"
+    <NuxtPicture
+              :src="image"
+              alt=""
+              class="block object-cover object-center w-full h-216px rounded-t-lg"
+              sizes="sm:100vw md:33vw lg:416px"
+              itemprop="contentUrl"
+              loading="lazy"
+              :img-attrs="{
+                class: 'block object-fit object-center w-full h-216px rounded-t-lg',
+                style: {backgroundColor: _imageBackgroundColor}
+              }"
+              :width="imageWidth"
       :height="imageHeight"
       :aspect-ratio="imageWidth / imageHeight"
-      :style="`background-color: ${_imageBackgroundColor}`"
-    />
+            ></NuxtPicture>
     <div class="p-6 flex grow flex-col self-stretch">
       <div class="text-gray-900 text-xl font-medium mb-2">{{ name }}</div>
       <p class="text-gray-700 text-base mb-4">
